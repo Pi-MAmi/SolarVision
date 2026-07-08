@@ -62,6 +62,10 @@ class Inverter:
     def qid(self):
         return self.send("QID")
 
+    # Yeni eklendi
+    def qpiws(self):
+        return self.send("QPIWS")
+
     def close(self):
         self.dev.close()
 
@@ -74,6 +78,11 @@ if __name__ == "__main__":
 
         print("QPI   :", inv.qpi())
         print("QPIGS :", inv.qpigs())
+        print("QPIRI :", inv.qpiri())
+        print("QMOD  :", inv.qmod())
+        print("QFLAG :", inv.qflag())
+        print("QID   :", inv.qid())
+        print("QPIWS :", inv.qpiws())
 
     finally:
 
