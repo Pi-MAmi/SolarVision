@@ -16,12 +16,14 @@ class Inverter:
 
         cmd = command.encode()
 
-        packet = b"\x00" + cmd + crc16(cmd) + b"\r"
-        #print("TX:", packet.hex())
+        packet = cmd + crc16(cmd) + b"\r"
 
-        self.dev.write(packet)
+        # Debug için istersen açabilirsin
+        # print("TX:", (b"\x00" + packet).hex())
 
-        time.sleep(0.5)
+        self.dev.write(b"\x00" + packet)
+
+        time.sleep(0.1)
 
         data = bytearray()
 
@@ -34,11 +36,31 @@ class Inverter:
 
             data.extend(chunk)
 
+            # Debug için istersen açabilirsin
+            # print("RX:", bytes(data).hex())
+
             if 0x0D in chunk:
                 break
-            #print("RX:", bytes(data).hex())
 
         return bytes(data)
+
+    def qpi(self):
+        return self.send("QPI")
+
+    def qpigs(self):
+        return self.send("QPIGS")
+
+    def qpiri(self):
+        return self.send("QPIRI")
+
+    def qmod(self):
+        return self.send("QMOD")
+
+    def qflag(self):
+        return self.send("QFLAG")
+
+    def qid(self):
+        return self.send("QID")
 
     def close(self):
         self.dev.close()
@@ -50,8 +72,8 @@ if __name__ == "__main__":
 
     try:
 
-        print("QPI   :", inv.send("QPI"))
-        print("QPIGS :", inv.send("QPIGS"))
+        print("QPI   :", inv.qpi())
+        print("QPIGS :", inv.qpigs())
 
     finally:
 
