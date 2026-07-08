@@ -45,6 +45,18 @@ class Database:
 
         """)
 
+        self.conn.execute("""
+
+        CREATE TABLE IF NOT EXISTS settings(
+
+            key TEXT PRIMARY KEY,
+
+            value TEXT
+
+        )
+
+        """)
+
         self.conn.commit()
 
     def insert(self, data):
@@ -144,17 +156,20 @@ class Database:
 
         return round(energy_wh / 1000, 3)
 
-    def today_income(self, price=3.24):
+    def today_income(self):
 
-        energy = self.today_energy()
+        price = float(self.get_setting("electric_price", "3.24"))
 
-        return round(energy * price, 2)
+        return round(self.today_energy() * price, 2)
 
     def today_stats(self):
 
         return {
+
             "today_energy": self.today_energy(),
+
             "today_income": self.today_income()
+
         }
 
     def history(self, limit=720):
@@ -162,6 +177,7 @@ class Database:
         rows = self.conn.execute("""
 
         SELECT
+
             timestamp,
             pv_power,
             battery_voltage,
@@ -182,3 +198,50 @@ class Database:
             result.append(dict(row))
 
         return result
+
+    # -----------------------------
+    # SETTINGS
+    # -----------------------------
+
+    def get_setting(self, key, default=""):
+
+        row = self.conn.execute(
+
+            "SELECT value FROM settings WHERE key=?",
+
+            (key,)
+
+        ).fetchone()
+
+        if row:
+            return row["value"]
+
+        return default
+
+    def set_setting(self, key, value):
+
+        self.conn.execute("""
+
+        INSERT INTO settings(key,value)
+
+        VALUES(?,?)
+
+        ON CONFLICT(key)
+
+        DO UPDATE SET value=excluded.value
+
+        """, (key, str(value)))
+
+        self.conn.commit()
+
+    def settings(self):
+
+        return {
+
+            "city": self.get_setting("city", "Bursa"),
+
+            "electric_price": self.get_setting("electric_price", "3.24"),
+
+            "refresh": self.get_setting("refresh", "5")
+
+        }

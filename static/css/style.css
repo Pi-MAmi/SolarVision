@@ -1058,6 +1058,154 @@ table td{
 }
 
 }
+/* ===========================
+   Header Sağ Bölüm
+=========================== */
+
+.header-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.settings-btn{
+
+    background:#ff9800;
+
+    color:white;
+
+    text-decoration:none;
+
+    padding:10px 18px;
+
+    border-radius:10px;
+
+    font-weight:bold;
+
+    transition:.3s;
+
+}
+
+.settings-btn:hover{
+
+    background:#e68900;
+
+}
+
+@media(max-width:768px){
+
+    .header-right{
+
+        flex-direction:column;
+
+        gap:8px;
+
+    }
+
+    .settings-btn{
+
+        width:100%;
+
+        text-align:center;
+
+    }
+
+}
+/* ===================================
+   AYARLAR SAYFASI
+=================================== */
+
+.input{
+
+    width:100%;
+
+    padding:12px;
+
+    margin-top:8px;
+
+    margin-bottom:15px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#2d3748;
+
+    color:#fff;
+
+    font-size:16px;
+
+    box-sizing:border-box;
+
+}
+
+.input:focus{
+
+    outline:none;
+
+    border:2px solid #ff9800;
+
+}
+
+select.input{
+
+    cursor:pointer;
+
+}
+
+.button{
+
+    background:#ff9800;
+
+    color:#fff;
+
+    border:none;
+
+    padding:12px 22px;
+
+    border-radius:10px;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.button:hover{
+
+    background:#e68900;
+
+}
+
+.button.secondary{
+
+    background:#4b5563;
+
+}
+
+.button.secondary:hover{
+
+    background:#374151;
+
+}
+
+.card label{
+
+    display:block;
+
+    font-weight:bold;
+
+    margin-top:10px;
+
+}
 canvas {
 
     width: 100% !important;

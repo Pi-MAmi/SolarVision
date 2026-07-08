@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 
 from database.database import Database
 from weather import get_weather
@@ -12,6 +12,10 @@ db = Database()
 def index():
     return render_template("index.html")
 
+
+# -------------------------------------------------
+# Dashboard API
+# -------------------------------------------------
 
 @app.route("/api/live")
 def live():
@@ -27,19 +31,62 @@ def live():
 @app.route("/api/weather")
 def weather():
 
-    return jsonify(get_weather())
+    city = db.get_setting("city", "Bursa")
+
+    return jsonify(get_weather(city))
 
 
 @app.route("/api/stats")
 def stats():
 
     return jsonify(db.today_stats())
-   
+
+
 @app.route("/api/history")
 def history():
 
     return jsonify(db.history())
 
+
+# -------------------------------------------------
+# Settings
+# -------------------------------------------------
+
+@app.route("/settings")
+def settings_page():
+
+    return render_template("settings.html")
+
+
+@app.route("/api/settings", methods=["GET"])
+def settings_get():
+
+    return jsonify(db.settings())
+
+
+@app.route("/api/settings", methods=["POST"])
+def settings_post():
+
+    data = request.json
+
+    db.set_setting("city", data.get("city", "Bursa"))
+    db.set_setting(
+        "electric_price",
+        data.get("electric_price", "3.24")
+    )
+    db.set_setting(
+        "refresh",
+        data.get("refresh", "5")
+    )
+
+    return jsonify({
+
+        "status": "ok"
+
+    })
+
+
+# -------------------------------------------------
 
 if __name__ == "__main__":
 

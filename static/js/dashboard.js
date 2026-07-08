@@ -1,13 +1,60 @@
 /* ==========================================================
-   SolarVision v1.1 Professional
+   SolarVision v1.2 Professional
    Dashboard.js
    Bölüm 1
-   Saat + API + Batarya + Canlı Veriler
-   ========================================================== */
+========================================================== */
 
 const API = "/api/live";
+const WEATHER_API = "/api/weather";
+const SETTINGS_API = "/api/settings";
 
-const PRICE_PER_KWH = 3.24;
+let SETTINGS = {
+
+    electric_price: 3.24,
+
+    refresh: 2
+
+};
+
+let todayEnergy = 0;
+
+let lastUpdate = null;
+
+let pvChart = null;
+
+
+/* ==========================================================
+   SETTINGS
+========================================================== */
+
+async function loadSettings() {
+
+    try {
+
+        const response = await fetch(SETTINGS_API);
+
+        SETTINGS = await response.json();
+
+        SETTINGS.electric_price =
+            parseFloat(SETTINGS.electric_price);
+
+        SETTINGS.refresh =
+            parseInt(SETTINGS.refresh);
+
+    }
+
+    catch (err) {
+
+        console.log("Settings okunamadı.");
+
+    }
+
+}
+
+
+/* ==========================================================
+   CANLI VERİLER
+========================================================== */
 
 async function loadLiveData() {
 
@@ -29,39 +76,94 @@ async function loadLiveData() {
 
 }
 
+
 function updateValues(data) {
 
-    setText("battery_voltage", data.battery_voltage.toFixed(2));
-    setText("battery_capacity", data.battery_capacity);
+    setText(
+        "battery_voltage",
+        Number(data.battery_voltage).toFixed(2)
+    );
 
-    setText("battery_voltage_table", data.battery_voltage.toFixed(2) + " V");
-    setText("battery_capacity_table", data.battery_capacity + " %");
+    setText(
+        "battery_capacity",
+        data.battery_capacity
+    );
+
+    setText(
+        "battery_voltage_table",
+        Number(data.battery_voltage).toFixed(2) + " V"
+    );
+
+    setText(
+        "battery_capacity_table",
+        data.battery_capacity + " %"
+    );
 
     setText("pv_power", data.pv_power);
-    setText("pv_voltage", data.pv_voltage.toFixed(1));
-    setText("pv_current", data.pv_current.toFixed(1));
 
-    setText("output_voltage", data.output_voltage);
-    setText("output_watt", data.output_watt);
+    setText(
+        "pv_voltage",
+        Number(data.pv_voltage).toFixed(1)
+    );
 
-    setText("load_percent", data.load_percent);
+    setText(
+        "pv_current",
+        Number(data.pv_current).toFixed(1)
+    );
 
-    setText("grid_voltage", data.grid_voltage + " V");
-    setText("grid_frequency", data.grid_frequency + " Hz");
+    setText(
+        "output_voltage",
+        data.output_voltage
+    );
 
-    setText("output_frequency", data.output_frequency + " Hz");
+    setText(
+        "output_watt",
+        data.output_watt
+    );
 
-    setText("temperature", data.temperature.toFixed(1) + " °C");
+    setText(
+        "load_percent",
+        data.load_percent
+    );
+
+    setText(
+        "grid_voltage",
+        data.grid_voltage + " V"
+    );
+
+    setText(
+        "grid_frequency",
+        data.grid_frequency + " Hz"
+    );
+
+    setText(
+        "output_frequency",
+        data.output_frequency + " Hz"
+    );
+
+    setText(
+        "temperature",
+        Number(data.temperature).toFixed(1) + " °C"
+    );
 
     updateBattery(data.battery_capacity);
-	
-	updateStatistics(data);
+
+    updateStatistics(data);
 
 }
 
+
+/* ==========================================================
+   BATARYA
+========================================================== */
+
 function updateBattery(percent) {
 
-    const bar = document.getElementById("battery_fill");
+    const bar =
+        document.getElementById("battery_fill");
+
+    if (!bar)
+        return;
 
     bar.style.width = percent + "%";
 
@@ -95,62 +197,40 @@ function updateBattery(percent) {
 
 }
 
-function setText(id, value) {
 
-    const el = document.getElementById(id);
-
-    if (el)
-
-        el.textContent = value;
-
-}
-
-function updateClock() {
-
-    const now = new Date();
-
-    document.getElementById("clock").innerHTML =
-        now.toLocaleTimeString("tr-TR");
-
-    document.getElementById("date").innerHTML =
-        now.toLocaleDateString(
-            "tr-TR",
-            {
-                weekday: "long",
-                year: "numeric",
-                month: "long",
-                day: "numeric"
-            }
-        );
-
-}
 /* ==========================================================
-   SolarVision v1.1 Professional
-   Dashboard.js
-   Bölüm 2
-   Hava Durumu
-   ========================================================== */
-
-const WEATHER_API = "/api/weather";
+   HAVA DURUMU
+========================================================== */
 
 async function loadWeather() {
 
     try {
 
-        const response = await fetch(WEATHER_API);
+        const response =
+            await fetch(WEATHER_API);
 
-        const weather = await response.json();
+        const weather =
+            await response.json();
 
-        setText("weather_city", weather.city);
+        setText(
+            "weather_city",
+            weather.city
+        );
 
-        setText("weather_text", weather.weather);
+        setText(
+            "weather_text",
+            weather.weather
+        );
 
         setText(
             "weather_temp",
             Number(weather.temperature).toFixed(1) + " °C"
         );
 
-        setText("weather_icon", weather.icon);
+        setText(
+            "weather_icon",
+            weather.icon
+        );
 
         updateWeatherDetails(weather);
 
@@ -158,30 +238,30 @@ async function loadWeather() {
 
     catch (err) {
 
-        console.error("Hava durumu alınamadı:", err);
-
-        setText("weather_text", "Bağlantı Hatası");
+        console.log(err);
 
     }
 
 }
 
 
-function updateWeatherDetails(weather){
+function updateWeatherDetails(weather) {
 
-    let detail=document.getElementById("weather_detail");
+    let detail =
+        document.getElementById("weather_detail");
 
-    if(!detail){
+    if (!detail) {
 
-        detail=document.createElement("div");
+        detail =
+            document.createElement("div");
 
-        detail.id="weather_detail";
+        detail.id = "weather_detail";
 
-        detail.style.marginTop="12px";
+        detail.style.marginTop = "12px";
 
-        detail.style.fontSize="16px";
+        detail.style.fontSize = "16px";
 
-        detail.style.color="#cfd8dc";
+        detail.style.color = "#cfd8dc";
 
         document
             .getElementById("weather_city")
@@ -190,35 +270,68 @@ function updateWeatherDetails(weather){
 
     }
 
-    detail.innerHTML=
+    detail.innerHTML =
 
-        "💧 Nem : %"+weather.humidity+
+        "💧 Nem : %" + weather.humidity +
 
         "<br>" +
 
-        "💨 Rüzgar : "+weather.wind+" km/s";
+        "💨 Rüzgar : " + weather.wind + " km/s";
 
 }
+
+
 /* ==========================================================
-   SolarVision v1.1 Professional
-   Dashboard.js
-   Bölüm 3
-   Günlük Üretim + Kazanç + Sistem Durumu
-   ========================================================== */
+   SAAT
+========================================================== */
 
-let todayEnergy = 0;
-let lastUpdate = null;
+function updateClock() {
 
-function updateStatistics(data){
+    const now = new Date();
 
-    // Yaklaşık enerji hesabı
-    // 2 saniyede bir örnek alıyoruz.
+    setText(
+        "clock",
+        now.toLocaleTimeString("tr-TR")
+    );
 
-    if(lastUpdate){
+    setText(
+        "date",
+        now.toLocaleDateString(
+            "tr-TR",
+            {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+            }
+        )
+    );
+
+}
+
+
+function setText(id, value) {
+
+    const el =
+        document.getElementById(id);
+
+    if (el)
+        el.textContent = value;
+
+}
+
+/* ==========================================================
+   İSTATİSTİKLER
+========================================================== */
+
+function updateStatistics(data) {
+
+    if (lastUpdate) {
 
         const diff = (Date.now() - lastUpdate) / 1000;
 
-        todayEnergy += (data.pv_power * diff) / 3600000;
+        todayEnergy +=
+            (data.pv_power * diff) / 3600000;
 
     }
 
@@ -231,7 +344,10 @@ function updateStatistics(data){
 
     setText(
         "today_income",
-        (todayEnergy * PRICE_PER_KWH).toFixed(2)
+        (
+            todayEnergy *
+            SETTINGS.electric_price
+        ).toFixed(2)
     );
 
     updateGridStatus(data);
@@ -241,11 +357,16 @@ function updateStatistics(data){
 }
 
 
-function updateGridStatus(data){
+/* ==========================================================
+   ŞEBEKE DURUMU
+========================================================== */
 
-    let badge = document.getElementById("grid_status");
+function updateGridStatus(data) {
 
-    if(!badge){
+    let badge =
+        document.getElementById("grid_status");
+
+    if (!badge) {
 
         badge = document.createElement("div");
 
@@ -259,36 +380,46 @@ function updateGridStatus(data){
 
     }
 
-    if(data.grid_voltage > 100){
+    if (data.grid_voltage > 100) {
 
-        badge.className = "status status-online";
+        badge.className =
+            "status status-online";
 
-        badge.innerHTML = "🟢 Şebeke Bağlı";
+        badge.innerHTML =
+            "🟢 Şebeke Bağlı";
 
     }
 
-    else{
+    else {
 
-        badge.className = "status status-battery";
+        badge.className =
+            "status status-battery";
 
-        badge.innerHTML = "🟠 Akü Modu";
+        badge.innerHTML =
+            "🟠 Akü Modu";
 
     }
 
 }
 
 
-function updateLastSeen(){
+/* ==========================================================
+   SON GÜNCELLEME
+========================================================== */
 
-    let obj = document.getElementById("last_update");
+function updateLastSeen() {
 
-    if(!obj){
+    let obj =
+        document.getElementById("last_update");
 
-        obj = document.createElement("div");
+    if (!obj) {
 
-        obj.id="last_update";
+        obj =
+            document.createElement("div");
 
-        obj.className="footer";
+        obj.id = "last_update";
+
+        obj.className = "footer";
 
         document
             .querySelector(".container")
@@ -301,35 +432,47 @@ function updateLastSeen(){
         new Date().toLocaleTimeString("tr-TR");
 
 }
-/* ==========================================================
-   SolarVision v1.1 Professional
-   Dashboard.js
-   Bölüm 4
-   PV Gücü Grafiği
-   ========================================================== */
 
-let pvChart = null;
+
+/* ==========================================================
+   PV GRAFİĞİ
+========================================================== */
 
 async function loadHistory() {
 
     try {
 
-        const response = await fetch("/api/history");
+        const response =
+            await fetch("/api/history");
 
-        const history = await response.json();
+        const history =
+            await response.json();
 
         const labels = [];
+
         const powers = [];
 
         history.forEach(item => {
 
-            const t = new Date(item.timestamp);
+            const t =
+                new Date(item.timestamp);
 
             labels.push(
-                t.toLocaleTimeString("tr-TR", {
-                    hour: "2-digit",
-                    minute: "2-digit"
-                })
+
+                t.toLocaleTimeString(
+
+                    "tr-TR",
+
+                    {
+
+                        hour: "2-digit",
+
+                        minute: "2-digit"
+
+                    }
+
+                )
+
             );
 
             powers.push(item.pv_power);
@@ -342,7 +485,7 @@ async function loadHistory() {
 
     catch (err) {
 
-        console.error("History API:", err);
+        console.log(err);
 
     }
 
@@ -351,15 +494,13 @@ async function loadHistory() {
 
 function drawPVChart(labels, data) {
 
-    const ctx = document
-        .getElementById("pvChart")
-        .getContext("2d");
+    const ctx =
+        document
+            .getElementById("pvChart")
+            .getContext("2d");
 
-    if (pvChart) {
-
+    if (pvChart)
         pvChart.destroy();
-
-    }
 
     pvChart = new Chart(ctx, {
 
@@ -379,15 +520,16 @@ function drawPVChart(labels, data) {
 
                     borderColor: "#FFD54F",
 
-                    backgroundColor: "rgba(255,213,79,0.15)",
+                    backgroundColor:
+                        "rgba(255,213,79,0.15)",
 
                     borderWidth: 2,
 
                     fill: true,
 
-                    tension: 0.35,
+                    pointRadius: 0,
 
-                    pointRadius: 0
+                    tension: 0.35
 
                 }
 
@@ -463,19 +605,43 @@ function drawPVChart(labels, data) {
 
 }
 
-loadHistory();
 
-setInterval(loadHistory,30000);
+/* ==========================================================
+   BAŞLAT
+========================================================== */
 
+async function startDashboard() {
 
-loadWeather();
+    await loadSettings();
 
-setInterval(loadWeather,600000);
+    updateClock();
 
-loadLiveData();
+    loadWeather();
 
-updateClock();
+    loadHistory();
 
-setInterval(loadLiveData, 2000);
+    loadLiveData();
 
-setInterval(updateClock, 1000);
+    setInterval(
+        updateClock,
+        1000
+    );
+
+    setInterval(
+        loadWeather,
+        600000
+    );
+
+    setInterval(
+        loadHistory,
+        30000
+    );
+
+    setInterval(
+        loadLiveData,
+        SETTINGS.refresh * 1000
+    );
+
+}
+
+startDashboard();
