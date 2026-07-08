@@ -301,6 +301,171 @@ function updateLastSeen(){
         new Date().toLocaleTimeString("tr-TR");
 
 }
+/* ==========================================================
+   SolarVision v1.1 Professional
+   Dashboard.js
+   Bölüm 4
+   PV Gücü Grafiği
+   ========================================================== */
+
+let pvChart = null;
+
+async function loadHistory() {
+
+    try {
+
+        const response = await fetch("/api/history");
+
+        const history = await response.json();
+
+        const labels = [];
+        const powers = [];
+
+        history.forEach(item => {
+
+            const t = new Date(item.timestamp);
+
+            labels.push(
+                t.toLocaleTimeString("tr-TR", {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                })
+            );
+
+            powers.push(item.pv_power);
+
+        });
+
+        drawPVChart(labels, powers);
+
+    }
+
+    catch (err) {
+
+        console.error("History API:", err);
+
+    }
+
+}
+
+
+function drawPVChart(labels, data) {
+
+    const ctx = document
+        .getElementById("pvChart")
+        .getContext("2d");
+
+    if (pvChart) {
+
+        pvChart.destroy();
+
+    }
+
+    pvChart = new Chart(ctx, {
+
+        type: "line",
+
+        data: {
+
+            labels: labels,
+
+            datasets: [
+
+                {
+
+                    label: "PV Gücü (W)",
+
+                    data: data,
+
+                    borderColor: "#FFD54F",
+
+                    backgroundColor: "rgba(255,213,79,0.15)",
+
+                    borderWidth: 2,
+
+                    fill: true,
+
+                    tension: 0.35,
+
+                    pointRadius: 0
+
+                }
+
+            ]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            animation: false,
+
+            plugins: {
+
+                legend: {
+
+                    labels: {
+
+                        color: "#ffffff"
+
+                    }
+
+                }
+
+            },
+
+            scales: {
+
+                x: {
+
+                    ticks: {
+
+                        color: "#cccccc",
+
+                        maxTicksLimit: 10
+
+                    },
+
+                    grid: {
+
+                        color: "#333"
+
+                    }
+
+                },
+
+                y: {
+
+                    beginAtZero: true,
+
+                    ticks: {
+
+                        color: "#cccccc"
+
+                    },
+
+                    grid: {
+
+                        color: "#333"
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    });
+
+}
+
+loadHistory();
+
+setInterval(loadHistory,30000);
 
 
 loadWeather();

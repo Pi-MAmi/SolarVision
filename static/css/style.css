@@ -1058,3 +1058,10 @@ table td{
 }
 
 }
+canvas {
+
+    width: 100% !important;
+
+    height: 320px !important;
+
+}

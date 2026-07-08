@@ -34,6 +34,11 @@ def weather():
 def stats():
 
     return jsonify(db.today_stats())
+   
+@app.route("/api/history")
+def history():
+
+    return jsonify(db.history())
 
 
 if __name__ == "__main__":
