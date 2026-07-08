@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, render_template
 
 from database.database import Database
+from weather import get_weather
 
 app = Flask(__name__)
 
@@ -21,6 +22,12 @@ def live():
         return jsonify({"status": "waiting"})
 
     return jsonify(data)
+
+
+@app.route("/api/weather")
+def weather():
+
+    return jsonify(get_weather())
 
 
 if __name__ == "__main__":

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SolarVision</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- ÜST BAŞLIK -->
+
+    <header>
+
+        <div class="logo">
+
+            ☀ SolarVision
+
+        </div>
+
+        <div class="datetime">
+
+            <div id="date">
+                -- -- ----
+            </div>
+
+            <div id="clock">
+                --:--:--
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- HAVA DURUMU -->
+
+    <section class="card">
+
+        <h2>🌤 Hava Durumu</h2>
+
+        <div class="weather">
+
+            <div id="weather_icon">
+
+                ☀
+
+            </div>
+
+            <div>
+
+                <div id="weather_text">
+
+                    Yükleniyor...
+
+                </div>
+
+                <div id="weather_temp">
+
+                    -- °C
+
+                </div>
+
+                <div id="weather_city">
+
+                    Bursa
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- BATARYA -->
+
+    <section class="card">
+
+        <h2>🔋 Batarya</h2>
+
+        <div class="battery">
+
+            <div class="battery-bar">
+
+                <div id="battery_fill"></div>
+
+            </div>
+
+            <div class="battery-values">
+
+                <div>
+
+                    <span id="battery_voltage">--</span> Volt
+
+                </div>
+
+                <div>
+
+                    %<span id="battery_capacity">--</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PV -->
+
+    <section class="grid">
+
+        <div class="card">
+
+            <h3>☀ PV Gücü</h3>
+
+            <div class="big">
+
+                <span id="pv_power">--</span>
+
+                W
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h3>⚡ PV Voltajı</h3>
+
+            <div class="big">
+
+                <span id="pv_voltage">--</span>
+
+                V
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h3>🔌 PV Akımı</h3>
+
+            <div class="big">
+
+                <span id="pv_current">--</span>
+
+                A
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ÇIKIŞ -->
+
+    <section class="grid">
+
+        <div class="card">
+
+            <h3>⚡ Çıkış Voltajı</h3>
+
+            <div class="big">
+
+                <span id="output_voltage">--</span>
+
+                V
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h3>⚡ Çıkış Gücü</h3>
+
+            <div class="big">
+
+                <span id="output_watt">--</span>
+
+                W
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h3>📊 Yük</h3>
+
+            <div class="big">
+
+                %<span id="load_percent">--</span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- GÜNLÜK ÜRETİM -->
+
+    <section class="grid">
+
+        <div class="card">
+
+            <h2>☀ Bugünkü Üretim</h2>
+
+            <div class="big">
+
+                <span id="today_energy">
+
+                    0.00
+
+                </span>
+
+                kWh
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h2>💰 Bugünkü Kazanç</h2>
+
+            <div class="big">
+
+                ₺
+
+                <span id="today_income">
+
+                    0.00
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- İNVERTER -->
+
+    <section class="card">
+
+        <h2>📋 İnverter Bilgileri</h2>
+
+        <table>
+
+            <tr>
+
+                <td>Şebeke Voltajı</td>
+
+                <td id="grid_voltage"></td>
+
+            </tr>
+
+            <tr>
+
+                <td>Şebeke Frekansı</td>
+
+                <td id="grid_frequency"></td>
+
+            </tr>
+
+            <tr>
+
+                <td>Çıkış Frekansı</td>
+
+                <td id="output_frequency"></td>
+
+            </tr>
+
+            <tr>
+
+                <td>Batarya Voltajı</td>
+
+                <td id="battery_voltage_table"></td>
+
+            </tr>
+
+            <tr>
+
+                <td>Batarya Seviyesi</td>
+
+                <td id="battery_capacity_table"></td>
+
+            </tr>
+
+            <tr>
+
+                <td>Sıcaklık</td>
+
+                <td id="temperature"></td>
+
+            </tr>
+
+        </table>
+
+    </section>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+</body>
+
+</html>
