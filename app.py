@@ -2,6 +2,7 @@ from flask import Flask, jsonify, render_template, request
 
 from database.database import Database
 from weather import get_weather
+from system_info import info
 
 app = Flask(__name__)
 
@@ -46,6 +47,12 @@ def stats():
 def history():
 
     return jsonify(db.history())
+
+
+@app.route("/api/system")
+def system():
+
+    return jsonify(info())
 
 
 # -------------------------------------------------
