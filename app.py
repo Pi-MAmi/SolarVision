@@ -30,6 +30,12 @@ def weather():
     return jsonify(get_weather())
 
 
+@app.route("/api/stats")
+def stats():
+
+    return jsonify(db.today_stats())
+
+
 if __name__ == "__main__":
 
     app.run(

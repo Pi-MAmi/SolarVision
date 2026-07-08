@@ -117,3 +117,48 @@ class Database:
             return None
 
         return dict(row)
+    def today_energy(self):
+
+        rows = self.conn.execute("""
+
+        SELECT pv_power
+
+        FROM live_data
+
+        WHERE date(timestamp)=date('now','localtime')
+
+        ORDER BY timestamp ASC
+
+        """).fetchall()
+
+        if len(rows) < 2:
+            return 0.0
+
+        # Collector 2 saniyede bir kayıt alıyor.
+        interval = 2
+
+        energy_wh = 0.0
+
+        for row in rows:
+
+            energy_wh += row["pv_power"] * interval / 3600
+
+        return round(energy_wh / 1000, 3)
+
+
+    def today_income(self, price=3.24):
+
+        energy = self.today_energy()
+
+        return round(energy * price, 2)
+
+
+    def today_stats(self):
+
+        return {
+
+            "today_energy": self.today_energy(),
+
+            "today_income": self.today_income()
+
+        }
