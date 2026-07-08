@@ -34,6 +34,9 @@ def parse_qpigs(raw: bytes) -> LiveData:
 
     parts = text.split()
 
+    if len(parts) < 20:
+        raise ValueError(f"Geçersiz QPIGS verisi: {text}")
+
     return LiveData(
 
         grid_voltage=float(parts[0]),
@@ -48,12 +51,11 @@ def parse_qpigs(raw: bytes) -> LiveData:
         battery_voltage=float(parts[8]),
         battery_capacity=int(parts[10]),
 
-        pv_voltage=float(parts[13]),
         pv_current=float(parts[9]),
+        temperature=float(parts[11]) / 10,
 
-        pv_power=int(parts[19]),
-
-        temperature=float(parts[11]) / 10
+        pv_voltage=float(parts[13]),
+        pv_power=int(parts[19])
 
     )
 
