@@ -6,21 +6,50 @@ __pycache__/
 # Virtual Environment
 venv/
 .env
+.env.*
 
-# Database
+# SQLite
 database/solar.db
+*.db
+*.sqlite
+*.sqlite3
 
 # Logs
 *.log
+logs/
 
-# VS Code
+# Flask
+instance/
+.flaskenv
+
+# IDE
 .vscode/
-
-# JetBrains
 .idea/
 
-# macOS
+# OS
 .DS_Store
+Thumbs.db
 
-# Linux
-*.swp
+# Git
+*.orig
+
+# Build
+dist/
+build/
+*.egg-info/
+
+# Test
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Raspberry Pi
+*.pid
+
+# Temporary
+tmp/
+temp/
+*.tmp
+
+# Local configuration
+config.local.py

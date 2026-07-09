@@ -1,5 +1,5 @@
 [Unit]
-Description=SolarVision Collector
+Description=SolarVision Collector Service
 After=network.target
 
 [Service]
@@ -19,6 +19,12 @@ RestartSec=5
 
 StandardOutput=journal
 StandardError=journal
+
+# Security
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=false
 
 [Install]
 WantedBy=multi-user.target

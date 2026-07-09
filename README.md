@@ -1,121 +1,88 @@
-<p align="center">
+# SolarVision
 
-# ☀️ SolarVision
-
-### Professional Solar Inverter Monitoring Platform
-
-
-
-</p>
-
----
-
-## About
-
-SolarVision is an open-source monitoring platform developed for Raspberry Pi.
-
-It communicates with TommaTech PI30 (Voltronic compatible) solar inverters via USB HID, collects real-time operating data, stores it in SQLite and presents everything through a modern responsive web dashboard.
-
-Designed to be lightweight, fast and suitable for 24/7 operation.
-
----
+Open-source solar inverter monitoring platform for Raspberry Pi.
 
 ## Features
 
-- ☀️ Live Solar Production
-- 🔋 Battery Monitoring
-- ⚡ Grid Monitoring
-- 🔌 Output Monitoring
-- 📊 Historical PV Charts
-- 🌤 Weather Integration
-- ⚙️ Settings Panel
-- 📱 Responsive Interface
-- 💻 System Monitoring
-- 🌐 Tailscale Remote Access
-- 🚧 Progressive Web App (PWA)
+- USB HID communication
+- TommaTech inverter support
+- Flask web dashboard
+- Responsive mobile interface
+- Progressive Web App (PWA)
+- SQLite database
+- Weather integration
+- Real-time charts
+- Nginx + Gunicorn deployment
+- Tailscale remote access ready
 
-...
+## Requirements
 
-<p align="center">
+- Raspberry Pi OS Bookworm
+- Python 3.11+
+- Nginx
+- Gunicorn
 
-# ☀️ SolarVision
-
-### Raspberry Pi için Profesyonel Solar İnverter İzleme Platformu
-
-
-</p>
-
----
-
-## Hakkında
-
-SolarVision, Raspberry Pi üzerinde çalışan açık kaynaklı bir güneş enerjisi izleme platformudur.
-
-TommaTech PI30 (Voltronic uyumlu) inverterlerle USB HID üzerinden haberleşerek gerçek zamanlı verileri toplar, SQLite veritabanında saklar ve modern bir web arayüzü üzerinden kullanıcıya sunar.
-
-Hafif, hızlı ve 7/24 çalışacak şekilde tasarlanmıştır.
-
----
-
-## Özellikler
-
-- ☀️ Canlı PV Gücü
-- 🔋 Batarya İzleme
-- ⚡ Şebeke İzleme
-- 🔌 Çıkış Gücü
-- 📊 Geçmiş Grafikler
-- 🌤 Hava Durumu
-- ⚙️ Ayarlar Paneli
-- 📱 Mobil Uyumlu Arayüz
-- 💻 Sistem Bilgisi
-- 🌐 Tailscale Uzaktan Erişim
-- 🚧 PWA Altyapısı
-
----
-
-## Desteklenen Donanım
-
-| Donanım | Durum |
-|----------|--------|
-| Raspberry Pi Zero W | ✅ |
-| Raspberry Pi OS Bookworm Lite | ✅ |
-| TommaTech PI30 | ✅ |
-| USB HID (0665:5161) | ✅ |
-
-
-## 🤝 Contributors
-
-Thanks to everyone who contributes to SolarVision.
-
-<a href="https://github.com/Pi-MAmi/SolarVision/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Pi-MAmi/SolarVision" />
-</a>
-
-# ❤️ Community
-
-SolarVision is an open-source project.
-
-Contributions, ideas, bug reports and feature requests are always welcome.
-
-If you would like to improve SolarVision, feel free to open an Issue or submit a Pull Request.
-
-## Acknowledgements
-
-This project was developed with technical guidance and design assistance using ChatGPT by OpenAI.
-
----
-
-## Kurulum
+## Installation
 
 ```bash
 git clone https://github.com/Pi-MAmi/SolarVision.git
-
 cd SolarVision
+chmod +x install.sh
+sudo ./install.sh
+```
 
-python3 -m venv venv
+Open your browser:
 
-source venv/bin/activate
+```
+http://RASPBERRY_PI_IP
+```
 
-pip install -r requirements.txt
+## Update
 
-python app.py
+```bash
+sudo ./update.sh
+```
+
+## Uninstall
+
+```bash
+sudo ./uninstall.sh
+```
+
+## Project Structure
+
+```
+SolarVision/
+├── app.py
+├── collector.py
+├── config.py
+├── database/
+├── inverter/
+├── nginx/
+├── services/
+├── static/
+├── templates/
+├── install.sh
+├── update.sh
+└── uninstall.sh
+```
+
+## Roadmap
+
+- Multi-inverter support
+- MQTT integration
+- Docker deployment
+- Home Assistant integration
+- PostgreSQL support
+- Plugin system
+
+## License
+
+MIT License
+
+## Author
+
+Muhammed Mert Tayyeli
+
+GitHub:
+https://github.com/Pi-MAmi/SolarVision
