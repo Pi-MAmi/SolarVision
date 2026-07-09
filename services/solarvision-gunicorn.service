@@ -1,0 +1,23 @@
+[Unit]
+Description=SolarVision Gunicorn
+After=network.target
+
+[Service]
+User=__USER__
+Group=www-data
+
+WorkingDirectory=__INSTALL_DIR__
+
+Environment="PATH=__INSTALL_DIR__/venv/bin"
+
+ExecStart=__INSTALL_DIR__/venv/bin/gunicorn \
+    --workers 2 \
+    --threads 2 \
+    --bind 127.0.0.1:8000 \
+    app:app
+
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

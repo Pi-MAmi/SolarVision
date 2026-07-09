@@ -1,0 +1,24 @@
+[Unit]
+Description=SolarVision Collector
+After=network.target
+
+[Service]
+Type=simple
+
+User=__USER__
+Group=__USER__
+
+WorkingDirectory=__INSTALL_DIR__
+
+Environment="PATH=__INSTALL_DIR__/venv/bin"
+
+ExecStart=__INSTALL_DIR__/venv/bin/python __INSTALL_DIR__/collector.py
+
+Restart=always
+RestartSec=5
+
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
