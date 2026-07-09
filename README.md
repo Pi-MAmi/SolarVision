@@ -91,6 +91,13 @@ Thanks to everyone who contributes to SolarVision.
   <img src="https://contrib.rocks/image?repo=Pi-MAmi/SolarVision" />
 </a>
 
+# ❤️ Community
+
+SolarVision is an open-source project.
+
+Contributions, ideas, bug reports and feature requests are always welcome.
+
+If you would like to improve SolarVision, feel free to open an Issue or submit a Pull Request.
 
 ## Acknowledgements
 
