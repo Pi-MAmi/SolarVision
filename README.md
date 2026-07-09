@@ -82,6 +82,20 @@ Hafif, hızlı ve 7/24 çalışacak şekilde tasarlanmıştır.
 | TommaTech PI30 | ✅ |
 | USB HID (0665:5161) | ✅ |
 
+
+## 🤝 Contributors
+
+Thanks to everyone who contributes to SolarVision.
+
+<a href="https://github.com/Pi-MAmi/SolarVision/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Pi-MAmi/SolarVision" />
+</a>
+
+
+## Acknowledgements
+
+This project was developed with technical guidance and design assistance using ChatGPT by OpenAI.
+
 ---
 
 ## Kurulum
