@@ -1,4 +1,26 @@
-venv/
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*.so
+
+# Virtual Environment
+venv/
+.env
+
+# Database
 database/solar.db
+
+# Logs
+*.log
+
+# VS Code
+.vscode/
+
+# JetBrains
+.idea/
+
+# macOS
+.DS_Store
+
+# Linux
+*.swp
